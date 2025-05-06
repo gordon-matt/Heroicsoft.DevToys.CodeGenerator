@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heroicsoft.DevToys.JsonInputCodeGenerator", "Heroicsoft.DevToys.JsonInputCodeGenerator\Heroicsoft.DevToys.JsonInputCodeGenerator.csproj", "{99D3B601-01D9-47DC-A873-8F477E3CFC7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heroicsoft.DevToys.CodeGenerator", "Heroicsoft.DevToys.CodeGenerator\Heroicsoft.DevToys.CodeGenerator.csproj", "{4B131D7E-A72F-466F-A196-B2B754231580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heroicsoft.DevToys.CsvInputCodeGenerator", "Heroicsoft.DevToys.CsvInputCodeGenerator\Heroicsoft.DevToys.CsvInputCodeGenerator.csproj", "{D9050F16-0BB5-4806-903D-1F7AF01655E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heroicsoft.DevToys.StringInputCodeGenerator", "Heroicsoft.DevToys.StringInputCodeGenerator\Heroicsoft.DevToys.StringInputCodeGenerator.csproj", "{6749C1EC-0C39-4AD5-BC58-4D6930AD0AB4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99D3B601-01D9-47DC-A873-8F477E3CFC7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D3B601-01D9-47DC-A873-8F477E3CFC7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D3B601-01D9-47DC-A873-8F477E3CFC7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D3B601-01D9-47DC-A873-8F477E3CFC7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B131D7E-A72F-466F-A196-B2B754231580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B131D7E-A72F-466F-A196-B2B754231580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B131D7E-A72F-466F-A196-B2B754231580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B131D7E-A72F-466F-A196-B2B754231580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9050F16-0BB5-4806-903D-1F7AF01655E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9050F16-0BB5-4806-903D-1F7AF01655E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9050F16-0BB5-4806-903D-1F7AF01655E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9050F16-0BB5-4806-903D-1F7AF01655E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6749C1EC-0C39-4AD5-BC58-4D6930AD0AB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6749C1EC-0C39-4AD5-BC58-4D6930AD0AB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6749C1EC-0C39-4AD5-BC58-4D6930AD0AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6749C1EC-0C39-4AD5-BC58-4D6930AD0AB4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C427377F-EB90-4355-91CE-2B9C17B6632A}
+	EndGlobalSection
+EndGlobal
