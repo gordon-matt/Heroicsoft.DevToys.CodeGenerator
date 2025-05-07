@@ -26,6 +26,7 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
 {
     private readonly FluidParser parser;
     private readonly TemplateOptions templateOptions;
+    private IUIInfoBar infoBar = InfoBar();
     private object model = null;
 
     private IUIMultiLineTextInput txtInput = MultiLineTextInput();
@@ -43,55 +44,6 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
         templateOptions.Filters.AddCustomFilters();
     }
 
-    //public UIToolView View
-    //=> new UIToolView(
-    //    isScrollable: true,
-    //    Grid()
-    //        .ColumnSmallSpacing()  // Reduced from MediumSpacing
-    //        .RowLargeSpacing()
-
-    //        .Rows(
-    //            (RowId.Toolbar, UIGridLength.Auto),
-    //            (RowId.Content, new UIGridLength(1, UIGridUnitType.Fraction)),
-    //            (RowId.Output, new UIGridLength(1, UIGridUnitType.Fraction)))
-
-    //        .Columns(
-    //            (ColumnId.Left, new UIGridLength(1, UIGridUnitType.Fraction)),
-    //            (ColumnId.Right, new UIGridLength(1, UIGridUnitType.Fraction))))
-
-    //        .Cells(
-    //            // Toolbar row (unchanged)
-    //            Cell(RowId.Toolbar, RowId.Toolbar, ColumnId.Left, ColumnId.Right,
-    //                Stack().Horizontal().WithChildren(/* buttons */)),
-
-    //            // Input section - now with properly sized button
-    //            Cell(RowId.Content, ColumnId.Left,
-    //                Stack()
-    //                    .Horizontal()
-    //                    .WithChildren(
-    //                        txtInput,
-    //                        Button()
-    //                            .Icon("FluentSystemIcons", '\uF15A')
-    //                            .OnClick(Import_Click) // Set fixed height
-    //                    )),
-
-    //            // Model section (unchanged)
-    //            Cell(RowId.Content, RowId.Content, ColumnId.Right, ColumnId.Right, txtModel),
-
-    //            // Bottom row (unchanged)
-    //            Cell(RowId.Output, RowId.Output, ColumnId.Left, ColumnId.Left, txtTemplate),
-    //            Cell(RowId.Output, RowId.Output, ColumnId.Right, ColumnId.Right, txtOutput)
-    //        ));
-    //// Add this nested enum for the inner grid
-    //private enum ColumnId
-    //{
-    //    Input,
-    //    Button,
-    //    Left,
-    //    Right
-    //}
-
-    // Column identifiers
     private enum ColumnId
     {
         Left,
@@ -130,30 +82,39 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     RowId.Toolbar, RowId.Toolbar,
                     ColumnId.Left, ColumnId.Right,
                     Stack()
-                        .Horizontal()
+                        .Vertical()
                         .WithChildren(
-                            //Button().Icon("FluentSystemIcons", '\uF42F').OnClick(OpenTemplate_Click),
-                            //Button().Icon("FluentSystemIcons", '\uE4DE').OnClick(NewTemplate_Click),
-                            //Button().Icon("FluentSystemIcons", '\uF680').OnClick(Save_Click),
-                            //Button().Icon("FluentSystemIcons", '\uEE3A').OnClick(Generate_Click),
-                            DropDownButton()
-                                .Icon("FluentSystemIcons", '\uEE93')
-                                .Text("Lang")
-                                .WithMenuItems(/* your items */)
-                        )),
+                            Stack()
+                                .Horizontal()
+                                .WithChildren(
+                                    DropDownButton()
+                                        .Icon("FluentSystemIcons", '\uEE93')
+                                        .Text("Lang")
+                                        .WithMenuItems(/* your items */)
+                                ),
+                            Stack()
+                                .Horizontal()
+                                .WithChildren(
+                                    infoBar
+                                        .Title("Error")
+                                        .Description("Something went wrong.")
+                                        .Error()
+                                        .Close())
+                        )
+                ),
 
                 // Input + Import button (left column)
                 Cell(
                     RowId.Content, RowId.Content,
                     ColumnId.Left, ColumnId.Left,
                     txtInput
-                        .Title("Input")
+                        .Title("JSON Input")
                         .Extendable()
                         .Language("json")
                         .CommandBarExtraContent(
                              Button()
                                 .Icon("FluentSystemIcons", '\uF15A')
-                                .Text("Import")
+                                .Text("Parse")
                                 .AccentAppearance()
                                 .OnClick(Import_Click))),
 
@@ -190,71 +151,6 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                         .ReadOnly())
             ));
 
-    //public UIToolView View
-    //    => new
-    //    (
-    //        Stack()
-    //            .Vertical()
-    //            .WithChildren
-    //            (
-    //                Stack()
-    //                    .Horizontal()
-    //                    .WithChildren
-    //                    (
-    //                        Button()
-    //                            .Icon("FluentSystemIcons", '\uF42F')
-    //                            .OnClick(OpenTemplate_Click), // Open
-
-    //                        Button()
-    //                            .Icon("FluentSystemIcons", '\uE4DE')
-    //                            .OnClick(NewTemplate_Click), // Add
-
-    //                        Button()
-    //                            .Icon("FluentSystemIcons", '\uF680')
-    //                            .OnClick(Save_Click), // Save
-
-    //                        Button()
-    //                            .Icon("FluentSystemIcons", '\uEE3A')
-    //                            .OnClick(Generate_Click), // Generate
-
-    //                        DropDownButton()
-    //                            .AlignHorizontally(UIHorizontalAlignment.Left)
-    //                            .Icon("FluentSystemIcons", '\uEE93') // Language
-    //                            .Text("Lang")
-    //                            .WithMenuItems(
-    //                                DropDownMenuItem()
-    //                                    .Text("C#")
-    //                                    .OnClick(ChangeLanguage_Click),
-    //                                DropDownMenuItem()
-    //                                    .Text("C#")
-    //                                    .OnClick(ChangeLanguage_Click),
-    //                                DropDownMenuItem()
-    //                                    .Text("C#")
-    //                                    .OnClick(ChangeLanguage_Click),
-    //                                DropDownMenuItem("Item 4"))
-    //                    ),
-    //                Stack()
-    //                    .Horizontal()
-    //                    .WithChildren
-    //                    (
-    //                        txtInput,
-
-    //                        Button()
-    //                            .Icon("FluentSystemIcons", '\uF15A')
-    //                            .OnClick(Import_Click), // Import
-
-    //                        txtModel
-    //                    ),
-    //                Stack()
-    //                    .Horizontal()
-    //                    .WithChildren
-    //                    (
-    //                        txtTemplate,
-    //                        txtOutput
-    //                    )
-    //            )
-    //    );
-
     public void OnDataReceived(string dataTypeName, object? parsedData)
     {
         // Handle Smart Detection.
@@ -266,66 +162,68 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
 
     private void Generate_Click()
     {
-        if (model == null)
+        try
         {
-            //MessageBox.Show("Add some data first!", "No data!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            return;
-        }
+            if (model == null)
+            {
+                infoBar.Title("No data!");
+                infoBar.Description("Add some data first!");
+                infoBar.Open();
+                return;
+            }
 
-        if (parser.TryParse(txtTemplate.Text, out var template, out string error))
-        {
-            var context = new TemplateContext(model, templateOptions);
-            txtOutput.Text(template.Render(context));
+            if (parser.TryParse(txtTemplate.Text, out var template, out string error))
+            {
+                var context = new TemplateContext(model, templateOptions);
+                txtOutput.Text(template.Render(context));
+            }
+            else
+            {
+                infoBar.Title("Error");
+                infoBar.Description("Unable to parse the template");
+                infoBar.Open();
+            }
         }
-        else
+        catch (Exception ex)
         {
-            //MessageBox.Show(
-            //    $"Unable to parse the template. Please check and fix any errors. {error}.",
-            //    "Error",
-            //    MessageBoxButtons.OK,
-            //    MessageBoxIcon.Error);
+
+            infoBar.Title("Error");
+            infoBar.Description(ex.GetBaseException().Message);
+            infoBar.Open();
         }
     }
 
     private void Import_Click()
     {
-        //listModel.Items.Clear();
-
-        //var structure = JsonHelper.GetStructure(txtInput.Text);
-
-        //foreach (string item in structure)
-        //{
-        //    listModel.Items.Add(Item(Label().Text(item), value: item));
-        //}
-
-        txtModel.Text(string.Empty);
-
-        var sb = new StringBuilder();
-        sb.AppendLine("'Model' is ALWAYS an array, even when the provided data is a single object. Nested arrays are suffixed with '[]', but should be accessed without that suffix.");
-        sb.AppendLine();
-        sb.AppendLine("The following JSON properties can be accessed via the objects in the 'Model' array:");
-        sb.AppendLine();
-
-        var structure = JsonHelper.GetStructure(txtInput.Text);
-        foreach (string item in structure)
+        try
         {
-            sb.AppendLine(item);
+            txtModel.Text(string.Empty);
+
+            var sb = new StringBuilder();
+            sb.AppendLine("'Model' is ALWAYS an array, even when the provided data is a single object. Nested arrays are suffixed with '[]', but should be accessed without that suffix.");
+            sb.AppendLine();
+            sb.AppendLine("The following JSON properties can be accessed via the objects in the 'Model' array:");
+            sb.AppendLine();
+
+            var structure = JsonHelper.GetStructure(txtInput.Text);
+            foreach (string item in structure)
+            {
+                sb.AppendLine(item);
+            }
+
+            txtModel.Text(sb.ToString());
+
+            model = new
+            {
+                Model = txtInput.Text.StartsWith('[') ? JArray.Parse(txtInput.Text) : JArray.Parse($"[{txtInput.Text}]")
+            };
         }
+        catch (Exception ex)
+        {
 
-        txtModel.Text(sb.ToString());
-
-        model = txtInput.Text.StartsWith('[') ? JArray.Parse(txtInput.Text) : JArray.Parse($"[{txtInput.Text}]");
-    }
-
-    private void NewTemplate_Click()
-    {
-    }
-
-    private void OpenTemplate_Click()
-    {
-    }
-
-    private void Save_Click()
-    {
+            infoBar.Title("Error");
+            infoBar.Description(ex.GetBaseException().Message);
+            infoBar.Open();
+        }
     }
 }
