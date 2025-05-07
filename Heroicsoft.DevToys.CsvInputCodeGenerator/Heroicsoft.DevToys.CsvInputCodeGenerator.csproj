@@ -47,6 +47,10 @@
 		</None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="CsvHelper" Version="33.0.1" />
+	</ItemGroup>
+
 	<!-- This makes sure to include dependencies of the project into the NuGet package, if any -->
 	<Target Name="IncludeAllFilesInTargetDir" BeforeTargets="_GetPackageFiles">
 		<ItemGroup>

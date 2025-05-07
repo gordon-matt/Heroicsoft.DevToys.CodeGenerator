@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="DevToys.Api" Version="2.0.8-preview" />
+    <PackageReference Include="Extenso.Core" Version="8.0.0" />
     <PackageReference Include="Fluid.Core" Version="2.24.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
