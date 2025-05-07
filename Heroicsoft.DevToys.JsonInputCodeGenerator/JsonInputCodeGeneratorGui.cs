@@ -104,6 +104,43 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     ColumnId.Left, ColumnId.Left,
                     txtInput
                         .Title("JSON Input")
+                        .Text(
+@"{
+  ""company"": ""Sample JSON"",
+  ""departments"": [
+    {
+      ""name"": ""Engineering"",
+      ""teams"": [
+        {
+          ""teamName"": ""Backend"",
+          ""members"": [
+            { ""name"": ""Alice"", ""role"": ""Developer"" },
+            { ""name"": ""Bob"", ""role"": ""DevOps"" }
+          ]
+        },
+        {
+          ""teamName"": ""Frontend"",
+          ""members"": [
+            { ""name"": ""Charlie"", ""role"": ""UI Developer"" },
+            { ""name"": ""Dana"", ""role"": ""UX Designer"" }
+          ]
+        }
+      ]
+    },
+    {
+      ""name"": ""Marketing"",
+      ""teams"": [
+        {
+          ""teamName"": ""Content"",
+          ""members"": [
+            { ""name"": ""Eve"", ""role"": ""Content Writer"" },
+            { ""name"": ""Frank"", ""role"": ""SEO Specialist"" }
+          ]
+        }
+      ]
+    }
+  ]
+}")
                         .Extendable()
                         .Language("json")
                         .CommandBarExtraContent(
@@ -129,7 +166,39 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     ColumnId.Left, ColumnId.Left,
                     txtTemplate
                         .Title("Template")
-                        .Text(Constants.InitialTemplateCode)
+                        .Text(
+@"{% comment %}
+Use the liquid templating language to iterate over the items in `Model`.
+Documentation: https://shopify.github.io/liquid/basics/introduction/
+Example below:
+{% endcomment %}
+
+{% for comp in Model %}
+    <h2>{{ comp.company }}</h2>
+    {% for department in comp.departments %}
+    <h3>{{ department.name }}</h3>
+    <table border=""1"" cellpadding=""5"" cellspacing=""0"">
+        <thead>
+        <tr>
+            <th>Team</th>
+            <th>Member Name</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in department.teams %}
+            {% for member in team.members %}
+            <tr>
+                <td>{{ team.teamName }}</td>
+                <td>{{ member.name }}</td>
+                <td>{{ member.role }}</td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+{% endfor %}")
                         .Extendable()
                         .CommandBarExtraContent(
                             Stack()

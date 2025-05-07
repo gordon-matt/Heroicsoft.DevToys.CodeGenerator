@@ -164,7 +164,31 @@ internal sealed class CsvInputCodeGeneratorGui : IGuiTool
                     ColumnId.Left, ColumnId.Left,
                     txtTemplate
                         .Title("Template")
-                        .Text(Constants.InitialTemplateCode)
+                        .Text(
+@"{% comment %}
+Use the liquid templating language to iterate over the items in `Model`.
+Documentation: https://shopify.github.io/liquid/basics/introduction/
+Example below:
+{% endcomment %}
+
+<table border=""1"" cellpadding=""5"" cellspacing=""0"">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Family Name</th>
+      <th>Given Names</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for person in Model %}
+      <tr>
+        <td>{{ person.ID }}</td>
+        <td>{{ person.FamilyName }}</td>
+        <td>{{ person.GivenNames }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>")
                         .Extendable()
                         .CommandBarExtraContent(
                             Stack()
