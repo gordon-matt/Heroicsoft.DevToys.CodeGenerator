@@ -6,6 +6,7 @@ using Fluid;
 using Heroicsoft.DevToys.CodeGenerator;
 using Heroicsoft.DevToys.CodeGenerator.Extensions;
 using Newtonsoft.Json.Linq;
+using static System.Net.Mime.MediaTypeNames;
 using static DevToys.Api.GUI;
 
 namespace Heroicsoft.DevToys.JsonInputCodeGenerator;
@@ -26,9 +27,12 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
 {
     private readonly FluidParser parser;
     private readonly TemplateOptions templateOptions;
-    private IUIInfoBar infoBar = InfoBar();
     private object model = null;
 
+    private IUIDropDownButton ddbOutputLanguage = DropDownButton();
+    private IUIDropDownButton ddbTemplateLanguage = DropDownButton();
+
+    private IUIInfoBar infoBar = InfoBar();
     private IUIMultiLineTextInput txtInput = MultiLineTextInput();
     private IUIMultiLineTextInput txtModel = MultiLineTextInput();
     private IUIMultiLineTextInput txtOutput = MultiLineTextInput();
@@ -42,20 +46,32 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
             MemberAccessStrategy = new UnsafeMemberAccessStrategy()
         };
         templateOptions.Filters.AddCustomFilters();
+
+        ddbOutputLanguage
+            .AlignHorizontally(UIHorizontalAlignment.Left)
+            .Icon("FluentSystemIcons", '\uEE93')
+            .WithMenuItems(
+                UIHelper.GetMenuItems(txtOutput));
+
+        ddbTemplateLanguage
+            .AlignHorizontally(UIHorizontalAlignment.Left)
+            .Icon("FluentSystemIcons", '\uEE93')
+            .WithMenuItems(
+                UIHelper.GetMenuItems(txtTemplate));
     }
 
-    private enum ColumnId
+    private enum ColumnId : byte
     {
-        Left,
-        Right
+        Left = 0,
+        Right = 1
     }
 
     //Row identifiers
-    private enum RowId
+    private enum RowId : byte
     {
-        Toolbar,
-        Content,
-        Output
+        Toolbar = 0,
+        Content = 1,
+        Output = 2
     }
 
     public UIToolView View => new
@@ -84,23 +100,11 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     Stack()
                         .Vertical()
                         .WithChildren(
-                            Stack()
-                                .Horizontal()
-                                .WithChildren(
-                                    DropDownButton()
-                                        .Icon("FluentSystemIcons", '\uEE93')
-                                        .Text("Lang")
-                                        .WithMenuItems(/* your items */)
-                                ),
-                            Stack()
-                                .Horizontal()
-                                .WithChildren(
-                                    infoBar
-                                        .Title("Error")
-                                        .Description("Something went wrong.")
-                                        .Error()
-                                        .Close())
-                        )
+                            infoBar
+                                .Title("Error")
+                                .Description("Something went wrong.")
+                                .Error()
+                                .Close())
                 ),
 
                 // Input + Import button (left column)
@@ -124,6 +128,7 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     ColumnId.Right, ColumnId.Right,
                     txtModel
                         .Title("Model")
+                        .Language("liquid")
                         .ReadOnly()),
 
                 // Template (left column, bottom row)
@@ -135,11 +140,18 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                         .Text(Constants.InitialTemplateCode)
                         .Extendable()
                         .CommandBarExtraContent(
-                             Button()
-                                .Icon("FluentSystemIcons", '\uEE3A')
-                                .Text("Generate")
-                                .AccentAppearance()
-                                .OnClick(Generate_Click))),
+                            Stack()
+                                .Horizontal()
+                                .WithChildren(
+                                    ddbTemplateLanguage,
+                                    Button()
+                                    .Icon("FluentSystemIcons", '\uEE3A')
+                                    .Text("Generate")
+                                    .AccentAppearance()
+                                    .OnClick(Generate_Click)
+                                )
+                        )
+                ),
 
                 // Output (right column, bottom row)
                 Cell(
@@ -148,7 +160,9 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     txtOutput
                         .Title("Output")
                         .Extendable()
-                        .ReadOnly())
+                        .ReadOnly()
+                    .CommandBarExtraContent(
+                        ddbOutputLanguage))
             ));
 
     public void OnDataReceived(string dataTypeName, object? parsedData)
@@ -156,14 +170,12 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
         // Handle Smart Detection.
     }
 
-    private void ChangeLanguage_Click()
-    {
-    }
-
     private void Generate_Click()
     {
         try
         {
+            infoBar.Close();
+
             if (model == null)
             {
                 infoBar.Title("No data!");
@@ -186,7 +198,6 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
         }
         catch (Exception ex)
         {
-
             infoBar.Title("Error");
             infoBar.Description(ex.GetBaseException().Message);
             infoBar.Open();
@@ -197,6 +208,8 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
     {
         try
         {
+            infoBar.Close();
+
             txtModel.Text(string.Empty);
 
             var sb = new StringBuilder();
@@ -220,7 +233,6 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
         }
         catch (Exception ex)
         {
-
             infoBar.Title("Error");
             infoBar.Description(ex.GetBaseException().Message);
             infoBar.Open();
