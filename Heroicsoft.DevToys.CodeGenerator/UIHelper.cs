@@ -4,57 +4,63 @@ namespace Heroicsoft.DevToys.CodeGenerator;
 
 public static class UIHelper
 {
-    public static void ChangeLanguage(IUIMultiLineTextInput uIMultiLineTextInput, string lang) => uIMultiLineTextInput.Language(lang);
+    public static void ChangeLanguage(string lang, params IUIMultiLineTextInput[] uIMultiLineTextInputs)
+    {
+        foreach (var uIMultiLineTextInput in uIMultiLineTextInputs)
+        {
+            uIMultiLineTextInput.Language(lang);
+        }
+    }
 
-    public static IUIDropDownMenuItem[] GetMenuItems(IUIMultiLineTextInput uIMultiLineTextInput) =>
+    public static IUIDropDownMenuItem[] GetMenuItems(params IUIMultiLineTextInput[] uIMultiLineTextInputs) =>
     [
         GUI.DropDownMenuItem()
             .Text("None")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, string.Empty)),
+            .OnClick(() => ChangeLanguage(string.Empty, uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("C++")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "cpp")),
+            .OnClick(() => ChangeLanguage("cpp", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("C#")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "csharp")),
+            .OnClick(() => ChangeLanguage("csharp", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("CSS")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "css")),
+            .OnClick(() => ChangeLanguage("css", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("Go")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "go")),
+            .OnClick(() => ChangeLanguage("go", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("HTML")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "html")),
+            .OnClick(() => ChangeLanguage("html", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("Java")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "java")),
+            .OnClick(() => ChangeLanguage("java", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("JavaScript")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "javascript")),
+            .OnClick(() => ChangeLanguage("javascript", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("Lua")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "lua")),
+            .OnClick(() => ChangeLanguage("lua", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("Markdown")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "markdown")),
+            .OnClick(() => ChangeLanguage("markdown", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("Razor")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "razor")),
+            .OnClick(() => ChangeLanguage("razor", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("Rust")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "rust")),
+            .OnClick(() => ChangeLanguage("rust", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("SQL")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "sql")),
+            .OnClick(() => ChangeLanguage("sql", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("TypeScript")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "typescript")),
+            .OnClick(() => ChangeLanguage("typescript", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("Visual Basic")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "vb")),
+            .OnClick(() => ChangeLanguage("vb", uIMultiLineTextInputs)),
         GUI.DropDownMenuItem()
             .Text("XML")
-            .OnClick(() => ChangeLanguage(uIMultiLineTextInput, "xml"))
+            .OnClick(() => ChangeLanguage("xml", uIMultiLineTextInputs))
     ];
 }

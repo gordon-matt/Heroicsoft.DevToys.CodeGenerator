@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using System.Text;
-using System.Xml.Linq;
 using DevToys.Api;
 using Fluid;
 using Heroicsoft.DevToys.CodeGenerator;
 using Heroicsoft.DevToys.CodeGenerator.Extensions;
 using Newtonsoft.Json.Linq;
-using static System.Net.Mime.MediaTypeNames;
 using static DevToys.Api.GUI;
 
 namespace Heroicsoft.DevToys.JsonInputCodeGenerator;
@@ -29,8 +27,7 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
     private readonly TemplateOptions templateOptions;
     private object model = null;
 
-    private IUIDropDownButton ddbOutputLanguage = DropDownButton();
-    private IUIDropDownButton ddbTemplateLanguage = DropDownButton();
+    private IUIDropDownButton ddbLanguage = DropDownButton();
 
     private IUIInfoBar infoBar = InfoBar();
     private IUIMultiLineTextInput txtInput = MultiLineTextInput();
@@ -47,17 +44,11 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
         };
         templateOptions.Filters.AddCustomFilters();
 
-        ddbOutputLanguage
+        ddbLanguage
             .AlignHorizontally(UIHorizontalAlignment.Left)
             .Icon("FluentSystemIcons", '\uEE93')
             .WithMenuItems(
-                UIHelper.GetMenuItems(txtOutput));
-
-        ddbTemplateLanguage
-            .AlignHorizontally(UIHorizontalAlignment.Left)
-            .Icon("FluentSystemIcons", '\uEE93')
-            .WithMenuItems(
-                UIHelper.GetMenuItems(txtTemplate));
+                UIHelper.GetMenuItems(txtTemplate, txtOutput));
     }
 
     private enum ColumnId : byte
@@ -129,7 +120,8 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     txtModel
                         .Title("Model")
                         .Language("liquid")
-                        .ReadOnly()),
+                        .ReadOnly()
+                        .AlwaysWrap()),
 
                 // Template (left column, bottom row)
                 Cell(
@@ -143,7 +135,7 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                             Stack()
                                 .Horizontal()
                                 .WithChildren(
-                                    ddbTemplateLanguage,
+                                    ddbLanguage,
                                     Button()
                                     .Icon("FluentSystemIcons", '\uEE3A')
                                     .Text("Generate")
@@ -160,9 +152,7 @@ internal sealed class JsonInputCodeGeneratorGui : IGuiTool
                     txtOutput
                         .Title("Output")
                         .Extendable()
-                        .ReadOnly()
-                    .CommandBarExtraContent(
-                        ddbOutputLanguage))
+                        .ReadOnly())
             ));
 
     public void OnDataReceived(string dataTypeName, object? parsedData)
