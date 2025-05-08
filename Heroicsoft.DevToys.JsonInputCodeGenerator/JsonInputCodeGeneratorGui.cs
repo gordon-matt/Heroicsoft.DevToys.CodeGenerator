@@ -200,6 +200,7 @@ Example below:
     {% endfor %}
 {% endfor %}")
                         .Extendable()
+                        .Language("html")
                         .CommandBarExtraContent(
                             Stack()
                                 .Horizontal()
@@ -221,6 +222,7 @@ Example below:
                     txtOutput
                         .Title("Output")
                         .Extendable()
+                        .Language("html")
                         .ReadOnly())
             ));
 

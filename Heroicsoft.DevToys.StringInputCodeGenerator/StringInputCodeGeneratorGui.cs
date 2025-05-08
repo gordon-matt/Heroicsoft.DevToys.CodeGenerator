@@ -151,6 +151,7 @@ Example below:
 public string {{ item }} { get; set; }
 {% endfor %}")
                         .Extendable()
+                        .Language("csharp")
                         .CommandBarExtraContent(
                             Stack()
                                 .Horizontal()
@@ -172,6 +173,7 @@ public string {{ item }} { get; set; }
                     txtOutput
                         .Title("Output")
                         .Extendable()
+                        .Language("csharp")
                         .ReadOnly())
             ));
 

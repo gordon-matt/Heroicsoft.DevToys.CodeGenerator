@@ -116,10 +116,8 @@ internal sealed class CsvInputCodeGeneratorGui : IGuiTool
                     Stack()
                         .Vertical()
                         .WithChildren(
-                            fileSelector
-                                .CanSelectOneFile()
-                                .LimitFileTypesTo(".csv", ".txt", ".tsv", ".tab")
-                                .OnFilesSelected(async x => await OnFileSelected(x)),
+                            // Hacky, but effective way to position the actual settings in line with the Model textbox
+                            DataGrid().Title("Settings"),
 
                             Setting()
                                 .Title("Has Header Row")
@@ -143,7 +141,13 @@ internal sealed class CsvInputCodeGeneratorGui : IGuiTool
                                     txtDelimiter
                                         .Text(",")
                                         .HideCommandBar()
-                                )
+                                ),
+
+
+                            fileSelector
+                                .CanSelectOneFile()
+                                .LimitFileTypesTo(".csv", ".txt", ".tsv", ".tab")
+                                .OnFilesSelected(async x => await OnFileSelected(x))
 
                         )
                 ),
@@ -190,6 +194,7 @@ Example below:
   </tbody>
 </table>")
                         .Extendable()
+                        .Language("html")
                         .CommandBarExtraContent(
                             Stack()
                                 .Horizontal()
@@ -211,6 +216,7 @@ Example below:
                     txtOutput
                         .Title("Output")
                         .Extendable()
+                        .Language("html")
                         .ReadOnly())
             ));
 
