@@ -35,6 +35,7 @@
 		<RepositoryUrl>https://github.com/user/repository</RepositoryUrl> -->
 		<Authors>Matt Gordon</Authors>
 		<PackageTags>devtoys-app</PackageTags>
+		<PackageProjectUrl>https://github.com/gordon-matt/Heroicsoft.DevToys.CodeGenerator</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
